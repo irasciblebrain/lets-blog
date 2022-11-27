@@ -43,7 +43,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 var localstrategy = require('passport-local').Strategy;
 
-mongoose.connect('mongodb+srv://sayantan_das:DAS_SSSS_06200221@cluster0.ztzaz.mongodb.net/test?retryWrites=true&w=majority',{
+mongoose.connect('mongodb+srv://saurabhsingh8543:Zzzzz99999@cluster0.ujvbn5i.mongodb.net/?retryWrites=true&w=majority',{
     useNewUrlParser:true,useUnifiedTopology:true
 }).then(()=>console.log("database connected")).catch(err => console.log("Can't connect to database "+err));
 

@@ -8,12 +8,6 @@ var expressSanitizer = require("express-sanitizer");
 const user = require('./model.js');
 var nodemailer = require('nodemailer');
 var path=require("path");
-//app.set("views", path.join(__dirname));
-
-//mongoose.connect("mongodb://localhost/restful_blog_app",{useNewUrlParser: true,useUnifiedTopology: true});
-
-//mongoose.set('useFindAndModify', false);
-
 
 app.set("view engine", "ejs");
 app.use(express.static("public"));
@@ -33,7 +27,6 @@ const crypto = require('crypto');
 const flash=require('connect-flash');
 
 
-//const server = require('http').Server(app);
 app.use(urlencodedParser);
 
 app.use(cookieParser('secret'));
@@ -71,7 +64,6 @@ const checkauth=function(req,res,next){
 const checkauthenticated=function(req,res,next){
     if(req.isAuthenticated()){
         console.log("authenticated")
-        //res.set('Cache-Control', 'no-cache, private, no-store, must-revalidate, post-check=0, pre-check=0');
         next();
     }
     else{
@@ -79,18 +71,6 @@ const checkauthenticated=function(req,res,next){
         res.redirect("/signin");
     }
 }
-
-// const ifauth=function(req,res,next){
-//     if(req.isAuthenticated()){
-//         console.log("authenticated")
-//         res.redirect("/");
-//         next();
-//     }
-//     else{
-//         console.log("not authenticated")
-//         res.redirect("/signin");
-//     }
-// }
 
 //---------------------------------------------------
 
@@ -125,9 +105,6 @@ app.get('/logout', function(req, res){
     var name = req.user.username;
     console.log("LOGGIN OUT " + req.user.username)
     req.logout();
-    // req.session.destroy(function (err) {
-    //     res.redirect('/');
-    // });
     res.redirect('/');
     req.session.notice = "You have successfully been logged out " + name + "!";
 });
@@ -135,7 +112,6 @@ app.get('/logout', function(req, res){
 
 app.get("/users/:username",checkauth,(req,res)=>{
     console.log("this is user page")
-    // res.redirect("/temp_details");
     blog.find({}, function(err, blogs){
         if(err){
             console.log("Error");
@@ -147,7 +123,6 @@ app.get("/users/:username",checkauth,(req,res)=>{
 })
 
 app.get("/",checkauth,(req,res)=>{
-    // res.redirect("/temp_details");
     console.log("this is no page")
     console.log("hiii")
     // redirecttouser(req.user.username)
@@ -198,8 +173,6 @@ app.post('/signup', urlencodedParser, function (req, res) {
             }
         });
     }
-    // const msg=req.body.mesg;
-    // console.log(msg);
 })  
 
 
@@ -256,7 +229,6 @@ app.post('/signin',function (req, res, next) {
 
 //-----------------------------------------------------
 
-//----------------------------------
 
 app.get('/forgot', function(req, res) {
     res.render('forgot-password', {
@@ -288,10 +260,10 @@ app.post('/forgot', function(req, res, next) {
             });
         },
         function(token, user, done) {
-            var smtpTransport = nodemailer.createTransport("smtps://founditoutbychance%40gmail.com:"+encodeURIComponent('sdas21062002') + "@smtp.gmail.com:465");
+            var smtpTransport = nodemailer.createTransport("smtps://saurabhsingh00112S%40gmail.com:"+encodeURIComponent('Dhanbadinto@') + "@smtp.gmail.com:465");
             var mailOptions = {
                 to: user.email,
-                from: 'founditoutbychance@gmail.com',
+                from: 'saurabhsingh00112S@gmail.com',
                 subject: 'Reset your Password',
                 text: 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
                         'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
@@ -363,24 +335,14 @@ app.post('/reset/:token', function(req, res) {
                     })
                 })
   
-                // data.password = req.body.password;
-                // data.resetPasswordToken = undefined;
-                // data.resetPasswordExpires = undefined;
-  
             });
         },
         function(user, done) {
-            // var smtpTransport = nodemailer.createTransport('SMTP', {
-            //     service: 'gmail',
-            //     auth: {
-            //         user: 'ghoshsanchita656@gmail.com',
-            //         pass: 'Sanchita@123'
-            //     }
-            // });
-            var smtpTransport = nodemailer.createTransport("smtps://founditoutbychance%40gmail.com:"+encodeURIComponent('sdas21062002') + "@smtp.gmail.com:465");
+       
+            var smtpTransport = nodemailer.createTransport("smtps://saurabhsingh00112S%40gmail.com:"+encodeURIComponent('Dhanbadinto@') + "@smtp.gmail.com:465");
             var mailOptions = {
                 to: user.email,
-                from: 'founditoutbychance@gmail.com',
+                from: 'saurabhsingh00112S@gmail.com',
                 subject: 'Your password has been changed',
                 text: 'Hello,\n\n' +
                     'This is a confirmation that the password for your account ' + user.email + ' has just been changed.\n'
@@ -404,13 +366,12 @@ var blogSchema = new mongoose.Schema({
     body: String,
     created: {type: Date, default: Date.now}
 });
+
+
 // MONGOOSE/MODEL CONFIG
 var blog = mongoose.model("blog", blogSchema);
-// Routes
-/* app.get("/", function(req, res){
-    res.redirect("/blogs");
-});
- */
+
+
 // INDEX ROUTE
 
 app.get("/blogs", function(req, res){
@@ -428,6 +389,7 @@ app.get("/blogs/new", function(req, res){
     res.render("new", {user: req.user.username});
 });
 
+
 // CREATE ROUTE
 app.post("/blogs", function(req, res){
     req.body.blog.body = req.sanitize(req.body.blog.body);
@@ -440,6 +402,7 @@ app.post("/blogs", function(req, res){
         }
     });
 });
+
 
 //SHOW ROUTE
 app.get("/blogs/:id", function(req, res){
@@ -464,6 +427,7 @@ app.get("/blogs/:id/edit", function(req, res){
         }
     });
 })
+
 
 //Update Route
 app.put("/blogs/:id", function(req, res){
